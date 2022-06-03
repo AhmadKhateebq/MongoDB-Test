@@ -34,7 +34,7 @@ public class CourseController {
 
     @PostMapping("/")
     public String addCourse(@RequestBody CourseDto courseDto) {
-        service.addCourse (Course.DTO (courseDto));
+        service.addCourse (mapper.COURSE_DTO (courseDto));
         return courseDto + " added";
     }
 
@@ -53,20 +53,16 @@ public class CourseController {
 
     @DeleteMapping("/c/{code}")
     public String deleteByCode(@PathVariable String code) {
-//        if (service.deleteByCode (code))
-//            return "Course with code " + code + " deleted";
-//         else
-//            return "Course not found";
+        if (service.getByCode (code) == null)
+            return "course not found";
         service.deleteByCode (code);
         return "Deleted";
     }
 
     @DeleteMapping("/n/{name}")
     public String deleteAllByName(@PathVariable String name) {
-//        if (service.deleteAllByName (name))
-//            return "all Course with code " + name + " deleted";
-//        else
-//            return "Course not found";
+        if (service.getAllByName (name).size () == 0)
+            return "course not found";
         service.deleteAllByName (name);
         return "deleted";
     }
